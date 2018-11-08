@@ -833,8 +833,8 @@ process.on(<span class="hljs-string">'uncaughtException'</span>, <span class="hl
 			<span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
 	    <span class="hljs-keyword">var</span> passphrase = <span class="hljs-built_in">require</span>(<span class="hljs-string">"bip39"</span>).generateMnemonic();
 			self.log(<span class="hljs-string">"Seed    - private:"</span>,passphrase);
-			self.log(<span class="hljs-string">"WIF     - private:"</span>,<span class="hljs-built_in">require</span>(<span class="hljs-string">"arkjs"</span>).crypto.getKeys(passphrase).toWIF());
-			self.log(<span class="hljs-string">"Address - public :"</span>,<span class="hljs-built_in">require</span>(<span class="hljs-string">"arkjs"</span>).crypto.getAddress(<span class="hljs-built_in">require</span>(<span class="hljs-string">"arkjs"</span>).crypto.getKeys(passphrase).publicKey));
+			self.log(<span class="hljs-string">"WIF     - private:"</span>,<span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomjs"</span>).crypto.getKeys(passphrase).toWIF());
+			self.log(<span class="hljs-string">"Address - public :"</span>,<span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomjs"</span>).crypto.getAddress(<span class="hljs-built_in">require</span>(<span class="hljs-string">"phantomjs"</span>).crypto.getKeys(passphrase).publicKey));
 			callback();
 	  });
 	<span class="hljs-keyword">var</span> account=<span class="hljs-literal">null</span>;

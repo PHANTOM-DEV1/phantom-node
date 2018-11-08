@@ -131,7 +131,7 @@
 <span class="hljs-keyword">var</span> BlockReward = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../logic/blockReward.js'</span>);
 <span class="hljs-keyword">var</span> constants = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../helpers/constants.js'</span>);
 <span class="hljs-keyword">var</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>);
-<span class="hljs-keyword">var</span> arkjs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'arkjs'</span>);
+<span class="hljs-keyword">var</span> phantomjs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'phantomjs'</span>);
 <span class="hljs-keyword">var</span> extend = <span class="hljs-built_in">require</span>(<span class="hljs-string">'extend'</span>);
 <span class="hljs-keyword">var</span> Router = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../helpers/router.js'</span>);
 <span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../schema/accounts.js'</span>);
@@ -301,7 +301,7 @@ __private.blockReward = <span class="hljs-keyword">new</span> BlockReward();</pr
             </div>
             
             <div class="content"><div class='highlight'><pre>Accounts.prototype.generateAddressByPublicKey = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">publicKey</span>) </span>{
-	<span class="hljs-keyword">return</span> arkjs.crypto.getAddress(publicKey);
+	<span class="hljs-keyword">return</span> phantomjs.crypto.getAddress(publicKey);
 };</pre></div></div>
             
         </li>

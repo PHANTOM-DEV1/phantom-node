@@ -1,7 +1,7 @@
 var moment = require('moment');
 var fs = require('fs');
 var path = require('path');
-var arkjs = require('arkjs');
+var phantomjs = require('phantomjscore');
 var crypto = require('crypto');
 var bip39 = require('bip39');
 var ByteBuffer = require('bytebuffer');
@@ -183,7 +183,7 @@ create = function (data) {
 
 	for (var i = 0; i < transactions.length; i++) {
 		var transaction = transactions[i];
-		var bytes = arkjs.crypto.getBytes(transaction);
+		var bytes = phantomjs.crypto.getBytes(transaction);
 
 		size += bytes.length;
 
@@ -233,12 +233,12 @@ var premine = {
   passphrase: bip39.generateMnemonic()
 };
 
-premine.publicKey = arkjs.crypto.getKeys(premine.passphrase).publicKey;
-premine.address = arkjs.crypto.getAddress(premine.publicKey);
+premine.publicKey = phantomjs.crypto.getKeys(premine.passphrase).publicKey;
+premine.address = phantomjs.crypto.getAddress(premine.publicKey);
 
-genesis.publicKey = arkjs.crypto.getKeys(genesis.passphrase).publicKey;
-genesis.address = arkjs.crypto.getAddress(genesis.publicKey);
-genesis.wif = arkjs.crypto.getKeys(genesis.passphrase).toWIF();
+genesis.publicKey = phantomjs.crypto.getKeys(genesis.passphrase).publicKey;
+genesis.address = phantomjs.crypto.getAddress(genesis.publicKey);
+genesis.wif = phantomjs.crypto.getKeys(genesis.passphrase).toWIF();
 
 var totalbalance = genesis.balance;
 var numvote = 0;
@@ -247,26 +247,26 @@ for(var i in accounts){
   var account = accounts[i];
 
   //send ark to account
-	var premineTx = arkjs.transaction.createTransaction(account.address, account.balance, null, premine.passphrase);
+	var premineTx = phantomjs.transaction.createTransaction(account.address, account.balance, null, premine.passphrase);
 
   delete premineTx.asset;
 	premineTx.fee = 0;
 	premineTx.timestamp = 0;
 	premineTx.senderId = premine.address;
-	premineTx.signature = arkjs.crypto.sign(premineTx,arkjs.crypto.getKeys(premine.passphrase));
-	premineTx.id = arkjs.crypto.getId(premineTx);
+	premineTx.signature = phantomjs.crypto.sign(premineTx,phantomjs.crypto.getKeys(premine.passphrase));
+	premineTx.id = phantomjs.crypto.getId(premineTx);
 	transactions.push(premineTx);
   totalbalance = totalbalance - account.balance;
 
   if(account.username){
     // create delegate
-    var createDelegateTx = arkjs.delegate.createDelegate("dummy", account.username);
+    var createDelegateTx = phantomjs.delegate.createDelegate("dummy", account.username);
     createDelegateTx.fee = 0;
     createDelegateTx.timestamp = 0;
     createDelegateTx.senderId = account.address;
     createDelegateTx.senderPublicKey = account.publicKey;
     createDelegateTx.asset.delegate.publicKey = account.publicKey;
-    createDelegateTx.id = arkjs.crypto.getId(createDelegateTx);
+    createDelegateTx.id = phantomjs.crypto.getId(createDelegateTx);
     //don't have passphrase so no verify
     createDelegateTx.signature="";
     transactions.push(createDelegateTx);
@@ -276,12 +276,12 @@ for(var i in accounts){
       console.log("Voting for " + account.username);
       console.log(totalbalance);
     	//vote for genesis_ accounts
-    	var voteTransaction = arkjs.vote.createVote(genesis.passphrase,["+"+account.publicKey]);
+    	var voteTransaction = phantomjs.vote.createVote(genesis.passphrase,["+"+account.publicKey]);
     	voteTransaction.fee = 0;
     	voteTransaction.timestamp = 0;
       voteTransaction.senderId = genesis.address;
-    	voteTransaction.signature = arkjs.crypto.sign(voteTransaction,arkjs.crypto.getKeys(genesis.passphrase));
-    	voteTransaction.id = arkjs.crypto.getId(voteTransaction);
+    	voteTransaction.signature = phantomjs.crypto.sign(voteTransaction,phantomjs.crypto.getKeys(genesis.passphrase));
+    	voteTransaction.id = phantomjs.crypto.getId(voteTransaction);
 
     	transactions.push(voteTransaction);
     }
@@ -292,7 +292,7 @@ for(var i in accounts){
 console.log(totalbalance);
 
 var genesisBlock = create({
-  keypair: arkjs.crypto.getKeys(genesis.passphrase),
+  keypair: phantomjs.crypto.getKeys(genesis.passphrase),
   transactions:transactions,
   timestamp:0
 });

@@ -3,13 +3,13 @@
   "address": "0.0.0.0",
   "version": "1.0.0",
   "fileLogLevel": "info",
-  "logFileName": "logs/ark.log",
+  "logFileName": "logs/phantom.log",
   "consoleLogLevel": "debug",
   "trustProxy": false,
   "db": {
     "host": "localhost",
     "port": 5432,
-    "database": "ark_testnet",
+    "database": "phantom_testnet",
     "user": null,
     "password": "password",
     "poolSize": 20,
@@ -94,7 +94,7 @@
       "secret pepper antique flip airport stadium angry talent act blur bulb hammer",
       "solve novel model upset demise thunder select number sun club region become",
       "scrub lawsuit dynamic matrix unhappy reason first taste bind dial lonely pair",
-      "cousin negative reward elevator mosquito remember pizza slab park pulp pencil lock",
+      "cousin negative reward elevator mosquito remember pizza slab pphantom pulp pencil lock",
       "bicycle dignity burger public miss target oblige dragon ready wood velvet spatial",
       "fragile vicious movie field dentist sheriff soda sing gloom gold horse antenna",
       "dress jeans obscure update wisdom enact person little sting make napkin rural",
@@ -124,8 +124,8 @@
     "options": {
       "port": 443,
       "address": "0.0.0.0",
-      "key": "./ssl/ark.key",
-      "cert": "./ssl/ark.crt"
+      "key": "./ssl/phantom.key",
+      "cert": "./ssl/phantom.crt"
     }
   },
   "network": "testnet",

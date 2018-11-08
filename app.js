@@ -7,7 +7,7 @@ var checkIpInList = require('./helpers/checkIpInList.js');
 var extend = require('extend');
 var fs = require('fs');
 var genesisblock = require('./genesisBlock.json');
-var arkjs = require('arkjs');
+var phantomjs = require('phantomjscore');
 var https = require('https');
 var Logger = require('./logger.js');
 var packageJson = require('./package.json');
@@ -19,6 +19,7 @@ var z_schema = require('./helpers/z_schema.js');
 var colors = require('colors');
 var vorpal = require('vorpal')();
 var spawn = require('child_process').spawn;
+var requestIp = require('request-ip');
 
 process.stdin.resume();
 
@@ -301,7 +302,7 @@ d.run(function () {
 
 			scope.network.app.use(function (req, res, next) {
 				var parts = req.url.split('/');
-				var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+				var ip = requestIp.getClientIp(req);
 
 				// Log client connections
 				logger.trace(req.method + ' ' + req.url + ' from ' + ip + ":" + req.headers.port);
@@ -341,12 +342,12 @@ d.run(function () {
 			});
 
 			scope.network.server.listen(scope.config.port, scope.config.address, function (err) {
-				scope.logger.info('# Ark node server started on: ' + scope.config.address + ':' + scope.config.port);
+				scope.logger.info('# Phantom node server started on: ' + scope.config.address + ':' + scope.config.port);
 
 				if (!err) {
 					if (scope.config.ssl.enabled) {
 						scope.network.https.listen(scope.config.ssl.options.port, scope.config.ssl.options.address, function (err) {
-							scope.logger.info('Ark https started: ' + scope.config.ssl.options.address + ':' + scope.config.ssl.options.port);
+							scope.logger.info('Phantom https started: ' + scope.config.ssl.options.address + ':' + scope.config.ssl.options.port);
 
 							cb(err, scope.network);
 						});
@@ -388,6 +389,7 @@ d.run(function () {
 		}],
 
 		db: function (cb) {
+			console.log(config.db)
 			var db = require('./helpers/database.js');
 			db.connect(config.db, logger, cb);
 		},
@@ -603,8 +605,8 @@ function startInteractiveMode(scope){
 			var self = this;
 	    var passphrase = require("bip39").generateMnemonic();
 			self.log("Seed    - private:",passphrase);
-			self.log("WIF     - private:",require("arkjs").crypto.getKeys(passphrase).toWIF());
-			self.log("Address - public :",require("arkjs").crypto.getAddress(require("arkjs").crypto.getKeys(passphrase).publicKey));
+			self.log("WIF     - private:",require("phantomjs").crypto.getKeys(passphrase).toWIF());
+			self.log("Address - public :",require("phantomjs").crypto.getAddress(require("phantomjs").crypto.getKeys(passphrase).publicKey));
 			callback();
 	  });
 	var account=null;
